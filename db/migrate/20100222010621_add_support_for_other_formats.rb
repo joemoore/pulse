@@ -11,6 +11,5 @@ class AddSupportForOtherFormats < ActiveRecord::Migration
       t.rename :feed_url, :cc_rss_url
       t.remove :type
     end
-
   end
 end
