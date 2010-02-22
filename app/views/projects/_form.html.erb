@@ -12,6 +12,11 @@
   </p>
 
   <p>
+    <b>Project Type</b><br/>
+    <%= f.select :type, [[CruiseControlProject.name.titleize, CruiseControlProject.name ]] %>
+  </p>
+
+  <p>
     <b>Cruise Control auth username</b><br/>
     <%= f.text_field :auth_username, :size=>40 %>
   </p>
