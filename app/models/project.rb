@@ -43,9 +43,8 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def cc_project_name
-    return nil if feed_url.nil?
-    URI.parse(feed_url).path.scan(/^.*\/(.*)\.rss/i)[0][0]
+  def project_name
+    feed_url.blank? ? nil : feed_url
   end
 
   def to_s

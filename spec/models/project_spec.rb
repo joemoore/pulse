@@ -1,8 +1,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Project do
+  class RandomProject < Project;end;
+
   before(:each) do
-    @project = Project.new(:name => "my_project", :feed_url => "http://foo.bar.com:3434/projects/mystuff/baz.rss")
+    @project = RandomProject.new(:name => "my_project", :feed_url => "http://foo.bar.com:3434/projects/mystuff/baz.rss")
   end
 
   it "should be valid" do
@@ -246,19 +248,14 @@ describe Project do
     end
   end
   
-  describe "#cc_project_name" do
+  describe "#project_name" do
     it "should return nil when feed_url is nil" do
       @project.feed_url = nil
-      @project.cc_project_name.should be_nil
+      @project.project_name.should be_nil
     end
 
-    it "should extract the project name from the RSS url" do
-      @project.cc_project_name.should == "baz"
-    end
-
-    it "should extract the project name from the RSS url regardless of capitalization" do
-      @project.feed_url = @project.feed_url.upcase
-      @project.cc_project_name.should == "BAZ"
+    it "should just use the feed URL" do
+      @project.project_name.should == @project.feed_url
     end
   end
 end

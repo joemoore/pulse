@@ -57,7 +57,7 @@ class StatusFetcher
     status[:error] = http_errors_for(project) do
       content = @url_retriever.retrieve_content_at(project.build_status_url, project.auth_username, project.auth_password)
       document = XML::Parser.string(content.downcase).parse
-      project_element = document.find_first("/projects/project[@name='#{project.cc_project_name.downcase}']")
+      project_element = document.find_first("/projects/project[@name='#{project.project_name.downcase}']")
       status[:building] = project_element && project_element.attributes['activity'] == "building"
     end
     status
