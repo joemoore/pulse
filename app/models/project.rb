@@ -5,8 +5,8 @@ class Project < ActiveRecord::Base
   acts_as_taggable
 
   validates_presence_of :name
-  validates_presence_of :cc_rss_url
-  validates_format_of :cc_rss_url, :with => /http:\/\/.*.rss$/
+  validates_presence_of :feed_url
+  validates_format_of :feed_url, :with => /http:\/\/.*.rss$/
 
   def status
     statuses.first || ProjectStatus.new
@@ -34,9 +34,9 @@ class Project < ActiveRecord::Base
   end
 
   def build_status_url
-    return nil if cc_rss_url.nil?
+    return nil if feed_url.nil?
 
-    url_components = URI.parse(cc_rss_url)
+    url_components = URI.parse(feed_url)
     returning("#{url_components.scheme}://#{url_components.host}") do |url|
       url << ":#{url_components.port}" if url_components.port
       url << "/XmlStatusReport.aspx"
@@ -44,8 +44,8 @@ class Project < ActiveRecord::Base
   end
 
   def cc_project_name
-    return nil if cc_rss_url.nil?
-    URI.parse(cc_rss_url).path.scan(/^.*\/(.*)\.rss/i)[0][0]
+    return nil if feed_url.nil?
+    URI.parse(feed_url).path.scan(/^.*\/(.*)\.rss/i)[0][0]
   end
 
   def to_s

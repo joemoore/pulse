@@ -41,7 +41,7 @@ class StatusFetcher
   def retrieve_status_for(project)
     status = {:online => false, :success => false}
     status[:error] = http_errors_for(project) do
-      content = @url_retriever.retrieve_content_at(project.cc_rss_url, project.auth_username, project.auth_password)
+      content = @url_retriever.retrieve_content_at(project.feed_url, project.auth_username, project.auth_password)
       document = XML::Parser.string(content).parse
       status[:success] = !!(find(document, 'title') =~ /success/)
       status[:url] = find(document, 'link')

@@ -31,7 +31,7 @@ describe ProjectsController do
       post :create, :project => {}
       Project.count.should == old_count
 
-      post :create, :project => {:name=>'name', :cc_rss_url=>'http://www.example.com/foo.rss'}
+      post :create, :project => {:name=>'name', :feed_url=>'http://www.example.com/foo.rss'}
       Project.count.should == old_count + 1
 
       response.should redirect_to(projects_path)

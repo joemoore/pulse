@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Project do
   before(:each) do
-    @project = Project.new(:name => "my_project", :cc_rss_url => "http://foo.bar.com:3434/projects/mystuff/baz.rss")
+    @project = Project.new(:name => "my_project", :feed_url => "http://foo.bar.com:3434/projects/mystuff/baz.rss")
   end
 
   it "should be valid" do
@@ -21,21 +21,21 @@ describe Project do
     end
 
     it "should require an RSS URL" do
-      @project.cc_rss_url = ""
+      @project.feed_url = ""
       @project.should_not be_valid
-      @project.errors[:cc_rss_url].should_not be_nil
+      @project.errors[:feed_url].should_not be_nil
     end
 
     it "should require that the RSS URL contain a valid domain" do
-      @project.cc_rss_url = "foo"
+      @project.feed_url = "foo"
       @project.should_not be_valid
-      @project.errors[:cc_rss_url].should_not be_nil
+      @project.errors[:feed_url].should_not be_nil
     end
 
     it "should require that the RSS URL contain a valid address" do
-      @project.cc_rss_url = "http://foo.bar.com/"
+      @project.feed_url = "http://foo.bar.com/"
       @project.should_not be_valid
-      @project.errors[:cc_rss_url].should_not be_nil
+      @project.errors[:feed_url].should_not be_nil
     end
   end
 
@@ -241,14 +241,14 @@ describe Project do
     end
 
     it "should not blow up if the RSS URL is not set (and the project is therefore invalid)" do
-      @project.cc_rss_url = nil
+      @project.feed_url = nil
       @project.build_status_url.should be_nil
     end
   end
   
   describe "#cc_project_name" do
-    it "should return nil when cc_rss_url is nil" do
-      @project.cc_rss_url = nil
+    it "should return nil when feed_url is nil" do
+      @project.feed_url = nil
       @project.cc_project_name.should be_nil
     end
 
@@ -257,7 +257,7 @@ describe Project do
     end
 
     it "should extract the project name from the RSS url regardless of capitalization" do
-      @project.cc_rss_url = @project.cc_rss_url.upcase
+      @project.feed_url = @project.feed_url.upcase
       @project.cc_project_name.should == "BAZ"
     end
   end
