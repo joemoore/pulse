@@ -6,7 +6,6 @@ class Project < ActiveRecord::Base
 
   validates_presence_of :name
   validates_presence_of :feed_url
-  validates_format_of :feed_url, :with => /http:\/\/.*.rss$/
 
   def status
     statuses.first || ProjectStatus.new
