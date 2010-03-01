@@ -17,16 +17,16 @@ end
 
 describe CruseControlStatusParser do
 
-  HISTORY_SUCCESS_XML = File.read('test/fixtures/cc_rss_examples/success.rss')
-  HISTORY_NEVER_GREEN_XML = File.read('test/fixtures/cc_rss_examples/never_green.rss')
-  HISTORY_FAILURE_XML = File.read('test/fixtures/cc_rss_examples/failure.rss')
-  HISTORY_INVALID_XML = "<foo><bar>baz</bar></foo>"
+  CC_HISTORY_SUCCESS_XML = File.read('test/fixtures/cc_rss_examples/success.rss')
+  CC_HISTORY_NEVER_GREEN_XML = File.read('test/fixtures/cc_rss_examples/never_green.rss')
+  CC_HISTORY_FAILURE_XML = File.read('test/fixtures/cc_rss_examples/failure.rss')
+  CC_HISTORY_INVALID_XML = "<foo><bar>baz</bar></foo>"
 
   describe "with reported success" do
     before(:all) do
-      @parser = XML::Parser.string(@response_xml = HISTORY_SUCCESS_XML)
+      @parser = XML::Parser.string(@response_xml = CC_HISTORY_SUCCESS_XML)
       @response_doc = @parser.parse
-      @status_parser = CruseControlStatusParser.status(HISTORY_SUCCESS_XML)
+      @status_parser = CruseControlStatusParser.status(CC_HISTORY_SUCCESS_XML)
     end
 
     it_should_behave_like "cc status for a valid build history xml response"
@@ -38,9 +38,9 @@ describe CruseControlStatusParser do
 
   describe "with reported failure" do
     before(:all) do
-      @parser = XML::Parser.string(@response_xml = HISTORY_FAILURE_XML)
+      @parser = XML::Parser.string(@response_xml = CC_HISTORY_FAILURE_XML)
       @response_doc = @parser.parse
-      @status_parser = CruseControlStatusParser.status(HISTORY_FAILURE_XML)
+      @status_parser = CruseControlStatusParser.status(CC_HISTORY_FAILURE_XML)
     end
 
     it_should_behave_like "cc status for a valid build history xml response"
@@ -52,21 +52,21 @@ describe CruseControlStatusParser do
 
   describe "with invalid xml" do
     before(:all) do
-      @parser = XML::Parser.string(@response_xml = HISTORY_INVALID_XML)
+      @parser = XML::Parser.string(@response_xml = CC_HISTORY_INVALID_XML)
       @response_doc = @parser.parse
-      @status_parser = CruseControlStatusParser.status(HISTORY_INVALID_XML)
+      @status_parser = CruseControlStatusParser.status(CC_HISTORY_INVALID_XML)
     end
   end
 end
 
 describe "building" do
-  BUILDING_XML = File.read('test/fixtures/building_status_examples/socialitis_building.xml')
-  NOT_BUILDING_XML = File.read('test/fixtures/building_status_examples/socialitis_not_building.xml')
-  BUILDING_INVALID_XML = "<foo><bar>baz</bar></foo>"
+  CC_BUILDING_XML = File.read('test/fixtures/building_status_examples/socialitis_building.xml')
+  CC_NOT_BUILDING_XML = File.read('test/fixtures/building_status_examples/socialitis_not_building.xml')
+  CC_BUILDING_INVALID_XML = "<foo><bar>baz</bar></foo>"
 
   context "with a valid response that the project is building" do
     before(:each) do
-      @status_parser = CruseControlStatusParser.building(BUILDING_XML, stub("a project", :project_name => 'Socialitis'))
+      @status_parser = CruseControlStatusParser.building(CC_BUILDING_XML, stub("a project", :project_name => 'Socialitis'))
     end
 
     it "should set the building flag on the project to true" do
@@ -76,7 +76,7 @@ describe "building" do
 
   context "with a valid response that the project is not building" do
     before(:each) do
-      @status_parser = CruseControlStatusParser.building(NOT_BUILDING_XML, stub("a project", :project_name => 'Socialitis'))
+      @status_parser = CruseControlStatusParser.building(CC_NOT_BUILDING_XML, stub("a project", :project_name => 'Socialitis'))
     end
 
     it "should set the building flag on the project to false" do
@@ -86,7 +86,7 @@ describe "building" do
 
   context "with an invalid response" do
     before(:each) do
-      @status_parser = CruseControlStatusParser.building(BUILDING_INVALID_XML, stub("a project", :project_name => 'Socialitis'))
+      @status_parser = CruseControlStatusParser.building(CC_BUILDING_INVALID_XML, stub("a project", :project_name => 'Socialitis'))
     end
 
     it "should set the building flag on the project to false" do

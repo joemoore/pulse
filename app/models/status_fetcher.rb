@@ -1,4 +1,3 @@
-require 'xml/libxml'
 
 class StatusFetcher
   def initialize(url_retriever = UrlRetriever.new)

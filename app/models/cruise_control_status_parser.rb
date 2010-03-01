@@ -1,3 +1,4 @@
+require 'xml/libxml'
 class CruseControlStatusParser
   attr_accessor :success, :building, :url, :published_at
 
